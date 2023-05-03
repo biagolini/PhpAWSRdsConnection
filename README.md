@@ -248,4 +248,5 @@ sudo systemctl reload apache2
 
 Step 10: Test the Web Server.
 
+
 Open your web browser and navigate to your instance's public IP address. You should see a table displaying Brazilian state names.
