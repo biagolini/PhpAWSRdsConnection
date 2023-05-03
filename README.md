@@ -15,6 +15,7 @@ Before you begin, ensure you have the following requirements:
 ## Setup
 
 Step 1: Launch an Ubuntu EC2 instance in a public subnet.
+
 Make sure that the security group attached to your instance allows public access (i.e., 0.0.0.0/0) to ports 443 and 80. Additionally, allow inbound access to port 22 from your IP address.
 
 Use the following User Data while launching the instance.
@@ -29,13 +30,21 @@ sudo php composer-setup.php --install-dir=/usr/local/bin --filename=composer
 php -r "unlink('composer-setup.php');"
 ```
 
-Step 2: SSH to your Instance.
+Step 2: Attach a role that allows your instance to consume Secret Manager resources.
+
+Navigate to the AWS EC2 Console (https://us-east-1.console.aws.amazon.com/ec2/home), selecting "Instances" from the left-hand menu, choosing your instance, clicking "Actions", selecting "Security", clicking "Modify IAM role", and selecting a role that provide access to AWS Secret Manager. Alternatively, you can apply the role by executing the following command in the AWS CLI.
+
+```bash
+aws ec2 associate-iam-instance-profile --instance-id <instance_id> --iam-instance-profile '{"Name"="<iam_role_name>}'
+```
+
+Step 3: SSH to your Instance.
 
 ```bash
 ssh ec2-user@INSTANCE-IP -i YourKey.pem
 ```
 
-Step 3: Check if your dependencies are correctelly installed.
+Step 4: Check if your dependencies are correctelly installed.
 
 ```bash
 aws --version
@@ -46,7 +55,7 @@ php -m # php extension
 composer --version
 ```
 
-Step 4: Set a basic AWS config to inform your default region.
+Step 5: Set a basic AWS config to inform your default region.
 
 ```bash
 aws configure
@@ -62,7 +71,7 @@ Test networking communication from EC2 to RDS.
 telnet YOUR-RDS-ENDPOINT 3306
 ```
 
-Step 5: Create a Folder.
+Step 6: Create a Folder.
 
 Set up a folder to store your project by running the following commands.
 
@@ -71,7 +80,7 @@ mkdir -p ~/myApps
 cd ~/myApps
 ```
 
-Step 6: Clone the Git Repository and Configure Git Credentials.
+Step 7: Clone the Git Repository and Configure Git Credentials.
 
 Before cloning the repository, you may want to configure your Git credentials.
 
@@ -104,7 +113,7 @@ cd ~/myApps
 ln -s PhpAWSRdsConnection php-rds-test
 ```
 
-Step 7: Setup your php dependencies.
+Step 8: Setup your php dependencies.
 
 Before starting to add our dependencies, keep in mind how dependencies will be added to our project. The path/files used in this tutorial will be:
 
@@ -176,7 +185,8 @@ composer require aws/aws-sdk-php
 composer install
 ```
 
-Step 8: Configure the Web Server
+Step 9: Configure the Web Server.
+
 Navigate to the project directory and obtain the path to your PHP project:
 
 ```bash
@@ -236,5 +246,6 @@ To activate the new configuration, reload Apache:
 sudo systemctl reload apache2
 ```
 
-Step 9: Test the Web Server
-Open your internet browser and access your instance's public IP. You should see the "Hello World" page.
+Step 10: Test the Web Server.
+
+Open your web browser and navigate to your instance's public IP address. You should see a table displaying Brazilian state names.
