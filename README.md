@@ -250,3 +250,11 @@ Step 10: Test the Web Server.
 
 
 Open your web browser and navigate to your instance's public IP address. You should see a table displaying Brazilian state names.
+
+## Contributing
+
+Feel free to submit issues, create pull requests, or fork the repository to help improve the project.
+
+## License and Disclaimer
+
+This project is open-source and available under the MIT License. You are free to copy, modify, and use the project as you wish. However, any responsibility for the use of the code is solely yours. Please use it at your own risk and discretion.
